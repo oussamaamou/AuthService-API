@@ -4,33 +4,58 @@ import { UserRole } from '../enums/UserRole.ts';
 
 const GlobalUserSchema = new Schema<GlobalUserProps>(
   {
-    firstName: { type: String, required : true },
-    lastName: { type: String, required : true },
+    firstName: { type: String, required: false }, 
+    lastName: { type: String, required: false }, 
 
     email: { 
         type: String, 
-        required: true, unique: true, lowercase: true, trim: true 
+        required: true, 
+        unique: true, 
+        lowercase: true, 
+        trim: true 
     },
+
+    phoneNumber: { type: String, required: false },
+    profilePicture: { type: String, required: false },
     
     passwordHash: { type: String, required: false },
 
-    authProvider: { 
+    provider: { 
         type: String, 
-        enum: ['local', 'google'], default: 'local', required: true 
+        enum: ['local', 'google'], 
+        default: 'local', 
+        required: true 
     },
 
-    role: { type: String, 
-        enum: Object.values(UserRole), default: UserRole.Particulier, required: true 
+    role: { 
+        type: String, 
+        enum: Object.values(UserRole), 
+        default: UserRole.Particulier, 
+        required: true 
     },
-    verified : { type : Boolean, default : false },
+
+    isEmailVerified: { type: Boolean, default: false },
 
     googleId: { type: String, unique: true, sparse: true },
 
-    twoFactorAuth: { type: Boolean, default: false },
+    twoFactorEnabled: { type: Boolean, default: false },
     twoFactorCode: { type: String, required: false },
 
+    verificationToken: { type: String, required: false },
+    verificationTokenExpiresAt: { type: Date, required: false },
+
+    status: { 
+        type: String, 
+        enum: ['active', 'suspended', 'deleted'], 
+        default: 'active' 
+    }
   },
-  { timestamps: true, collection: 'global_users' }
+  { 
+    timestamps: true, 
+    collection: 'global_users' 
+  }
 );
 
-export const GlobalUserModel = mongoose.model<GlobalUserProps>('GlobalUser', GlobalUserSchema);
+const GlobalUserModel = mongoose.model<GlobalUserProps>('GlobalUser', GlobalUserSchema);
+
+export default GlobalUserModel;
