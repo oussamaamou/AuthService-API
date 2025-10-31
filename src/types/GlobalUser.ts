@@ -6,15 +6,24 @@ export type GlobalUserProps = {
     firstName?: string;
     lastName?: string;
     email: string;
+    phoneNumber?: string; 
+    profilePicture?: string; 
 
     passwordHash?: string;
-    role: UserRole;
-    verified: boolean;             
+    
+    role: UserRole; 
+    
+    isEmailVerified: boolean;
 
+    provider: Provider;
+    
+    googleId?: string; 
 
-    authProvider: Provider;         
-    googleId?: string;
+    twoFactorEnabled: boolean;
+    twoFactorCode?: string; 
 
-    twoFactorAuth: boolean;
-    twoFactorCode: string;
+    verificationToken?: string;
+    verificationTokenExpiresAt?: Date;
+
+    status?: 'active' | 'suspended' | 'deleted';
 };
